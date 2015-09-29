@@ -12,8 +12,6 @@
 3. Query truck entity
 4. 
 5. 
-6.
-7. 
 
 #MVP: for Meet
 1. Throw list of trucks with votes and menus. JSON object with all this.
