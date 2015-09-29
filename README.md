@@ -16,3 +16,7 @@
 #MVP: for Meet
 1. Throw list of trucks with votes and menus. JSON object with all this.
 2. Purchases, votes, building name(location), Dollar amount. so more like list of buildings. 
+
+
+#MVP: for Luis
+1. Dashboard with Map and aggregated data from Meet's MVP JSON.
