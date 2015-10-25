@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ReportingPage</title>
+		<script src="../Chart.js"></script>
+		<style type="text/css">
+
+		body{
+			background-color: #FFF5EE;
+		}
+
+		#HeroBanner{
+		width:100%;
+		height: 500px;
+		color:#ffffff;
+		background-image: url("banner.jpg");
+		background-size: 120%;
+		}
+		#header{
+		width:100%;
+		font-family: 'Segoe UI';
+		font-size: 100%;
+		text-align: center;
+		color:#ffffff;
+		}
+		#goalmet{
+		width:100%;
+		font-family: 'Segoe UI';
+		font-size: 300%;
+		text-align: center;
+		color:#ffffff;
+		}
+		#nextButton{
+		width:100%;
+		font-family: 'Segoe UI';
+		font-size: 100%;
+		text-align: center;
+		color:#ffffff;
+		float: center;
+		}
+		#previousButton{
+		width:100%;
+		font-family: 'Segoe UI';
+		font-size: 100%;
+		text-align: center;
+		color:#ffffff;
+		float: left;
+		}
+		#title{
+		width:100%;
+		font-family: 'Segoe UI';
+		font-size: 700%;
+		text-align: center;
+		color:#ffffff;
+		}
+		#questions{
+		width:100%;
+		font-family: 'Segoe UI';
+		font-size: 200%;
+		text-align: center;
+		color:#000000;
+		}
+		#wrapper{
+		width: 100%;
+		margin: 0 auto;
+		}
+		#map {
+        height: 250%;
+        width: 100%;
+        }
+		#body{
+		background: black;
+		}
+		#one{
+		width: 33%;
+		height: 100%;
+		margin: 0;
+		float: left;
+		}
+		#two{
+		width: 33%;
+		height: 200px;
+		margin: 0;
+		float: left;
+		}
+		#three{
+		width: 33%;
+		height: 200px;
+		margin: 0;
+		float: left;
+		}
+		</style>
+	</head>
+	<body>
+		<div id = "HeroBanner">
+			<h2 id = "header">Hello There, Awesome food truck owner, here are today's stats</h2>
+			<h2 id = "title">Kung Fuud</h2>		
+			<h4 id ="goalmet">Congrats! You met your goal $1000!</h4>
+		</div>
+
+
+		<div id="wrapper">
+			<div id="one">
+				<p id="questions">What was the most popular item?</p>
+				<div id="canvas-holder">
+					<canvas id="chart-area" width="600" height="450"/>
+				</div>
+			</div>
+			<div id="two">
+				<p id="questions">Where were you today?</p>
+				<div id="map"></div>
+			</div>
+			<div id="three">
+				<p id="questions">What's your current inventory?</p>
+				<div>
+					<canvas id="canvas" height="450" width="600"></canvas>
+				</div>
+			</div>
+						<h3 type="text" id="nextButton" >Next Day</h3> 
+			<h3 type="text" id="previousButton">Previous Day </h3>
+		</div>
+		<script>
+		window.history = 0;
+		Array.prototype.mapProperty = function(property) {
+		return this.map(function (obj) {
+			return obj[property];
+		});
+		};
+		
+		// Example: myData.mapProperty('rank') to get an array of all ranks
+		//DATA
+		//DATA
+		//DATA
+		//DATA
+		//DATA
+		//DATA
+			var pieData1 = [
+					{
+						value: 300,
+						color:"#F7464A",
+						highlight: "#FF5A5E",
+						label: "Bufflo Chicken Sushi"
+					},
+					{
+						value: 50,
+						color: "#46BFBD",
+						highlight: "#5AD3D1",
+						label: "Super Fried Octopus"
+					},
+					{
+						value: 100,
+						color: "#FDB45C",
+						highlight: "#FFC870",
+						label: "Vegeta Roll"
+					},
+					{
+						value: 40,
+						color: "#949FB1",
+						highlight: "#A8B3C5",
+						label: "Mango Spiced Steamed Fish"
+					},
+					{
+						value: 120,
+						color: "#4D5360",
+						highlight: "#616774",
+						label: "Star Shaped Steak"
+					}
+				];
+				var pieData2 = [
+					{
+						value: 100,
+						color:"#F7464A",
+						highlight: "#FF5A5E",
+						label: "Red"
+					},
+					{
+						value: 70,
+						color: "#46BFBD",
+						highlight: "#5AD3D1",
+						label: "Green"
+					},
+					{
+						value: 150,
+						color: "#FDB45C",
+						highlight: "#FFC870",
+						label: "Yellow"
+					},
+					{
+						value: 80,
+						color: "#949FB1",
+						highlight: "#A8B3C5",
+						label: "Grey"
+					},
+					{
+						value: 400,
+						color: "#4D5360",
+						highlight: "#616774",
+						label: "Dark Grey"
+					}
+				];
+		var barData1 = [
+		{
+		"ingredent":"Buns",
+		"Remaining": 50
+		},
+		{
+		"ingredent":"Tomatos",
+		"Remaining": 80
+		},
+		{
+		"ingredent":"Basil",
+		"Remaining": 8
+		},
+		{
+		"ingredent":"Chicken",
+		"Remaining": 20
+		},
+		{
+		"ingredent":"Garlic",
+		"Remaining": 30
+		},
+		{
+		"ingredent":"Love",
+		"Remaining": 100
+		},
+		{
+		"ingredent":"Awesomeness",
+		"Remaining": 100
+		}
+		];
+		var barChartData1 = {
+			labels : barData1.mapProperty('ingredent'),
+			datasets : [
+				{
+					fillColor : "rgba(220,220,220,0.5)",
+					strokeColor : "rgba(220,220,220,0.8)",
+					highlightFill: "rgba(220,220,220,0.75)",
+					highlightStroke: "rgba(220,220,220,1)",
+					data : barData1.mapProperty('Remaining')}
+			]
+		}
+		var barData2 = [
+		{
+		"ingredent":"Buns",
+		"Remaining": 20
+		},
+		{
+		"ingredent":"Tomatos",
+		"Remaining": 60
+		},
+		{
+		"ingredent":"Basil",
+		"Remaining": 99
+		},
+		{
+		"ingredent":"Chicken",
+		"Remaining": 40
+		},
+		{
+		"ingredent":"Garlic",
+		"Remaining": 15
+		},
+		{
+		"ingredent":"Love",
+		"Remaining": 90
+		},
+		{
+		"ingredent":"Awesomeness",
+		"Remaining": 80
+		}
+		];
+		var barChartData2 = {
+			labels : barData2.mapProperty('ingredent'),
+			datasets : [
+				{
+					fillColor : "rgba(220,220,220,0.5)",
+					strokeColor : "rgba(220,220,220,0.8)",
+					highlightFill: "rgba(220,220,220,0.75)",
+					highlightStroke: "rgba(220,220,220,1)",
+					data : barData2.mapProperty('Remaining')}
+			]
+		}
+		//
+		//ENDDATA
+		//ENDDATA
+		//ENDDATA
+		//ENDDATA
+		//ENDDATA
+		//ENDDATA
+		//var  barHistory = [ barChartData7, barChartData6,barChartData5,barChartData4,barChartData3,barChartData2,barChartData1 ];
+		//var  pieHistory = [ pieChartData7,pieChartData6, pieChartData5, pieChartData4,pieChartData3, pieChartData2, pieChartData1 ];
+		
+			window.onload = function(){
+					var ctx = document.getElementById("chart-area").getContext("2d");
+					window.myPie = new Chart(ctx).Pie(pieData1);
+					var ctx = document.getElementById("canvas").getContext("2d");
+					window.myBar = new Chart(ctx).Bar(barChartData1, {
+					responsive : true
+					});
+				};
+		
+		
+		var nextbutton = document.getElementById("nextButton");
+		nextbutton.onclick = function() {
+
+		//update header
+		var d = new Date();
+		d.setDate(d.getDate());
+		document.getElementById("header").innerHTML = d.toDateString();
+		//Update Graphs
+		var ctx = document.getElementById("chart-area").getContext("2d");
+				window.myPie = new Chart(ctx).Pie(pieData2);
+		var ctx = document.getElementById("canvas").getContext("2d");
+				window.myBar = new Chart(ctx).Bar(barChartData2, {
+					responsive : true
+				});
+		}
+		var previousbutton = document.getElementById("previousButton");
+		previousbutton.onclick = function() {
+		//update header
+		var d = new Date();
+		d.setDate(d.getDate());
+		document.getElementById("header").innerHTML = d.toDateString();
+		//Update Graphs
+		var ctx = document.getElementById("chart-area").getContext("2d");
+				window.myPie = new Chart(ctx).Pie(pieData2);
+		var ctx = document.getElementById("canvas").getContext("2d");
+				window.myBar = new Chart(ctx).Bar(barChartData2, {
+					responsive : true
+				});
+		}
+		//Map Icon Set up
+		// Data for the markers consisting of a name, a LatLng and a zIndex for the
+		// order in which these markers should display on top of each other.
+		var markerlocation1 = {lat: 37.782, lng: -122.441};
+		var markerlocation2 = {lat: 37.802, lng: -122.441};
+		var nopermitmarker;
+		var constructionmarker;
+		function setMarkers(map) {
+		// Adds markers to the map.
+		// Marker sizes are expressed as a Size of X,Y where the origin of the image
+		// (0,0) is located in the top left of the image.
+		// Origins, anchor positions and coordinates of the marker increase in the X
+		// direction to the right and in the Y direction down.
+		var noparkingimage = {
+		url: 'C:/Users/vinsonyu/Desktop/Maps/truckicon75.png',
+		// This marker is 20 pixels wide by 32 pixels high.
+		size: new google.maps.Size(75, 75),
+		// The origin for this image is (0, 0).
+		origin: new google.maps.Point(0, 0),
+		// The anchor for this image is the base of the flagpole at (0, 32).
+		anchor: new google.maps.Point(25, 50)
+		};
+		/*
+		var constructionimage = {
+		url: 'C:/Users/vinsonyu/Desktop/Maps/Construction.png',
+		// This marker is 20 pixels wide by 32 pixels high.
+		size: new google.maps.Size(75, 75),
+		// The origin for this image is (0, 0).
+		origin: new google.maps.Point(0, 0),
+		// The anchor for this image is the base of the flagpole at (0, 32).
+		anchor: new google.maps.Point(25, 50)
+		}
+		*/
+		// Shapes define the clickable region of the icon. The type defines an HTML
+		// <area> element 'poly' which traces out a polygon as a series of X,Y points.
+			// The final coordinate closes the poly by connecting to the first coordinate.
+			var shape = {
+			coords: [1, 1, 1, 75, 75, 75, 75, 1],
+			type: 'poly'
+			};
+			nopermitmarker = new google.maps.Marker({
+			position: markerlocation1,
+			map: map,
+			icon: noparkingimage,
+			shape: shape,
+			title: "Permit Warning"
+			});
+			constructionmarker = new google.maps.Marker({
+			position: markerlocation2,
+			map: map,
+			icon: constructionimage,
+			shape: shape,
+			title: "Construction Warning"
+			});
+			
+			}
+			//Circle set up stuff
+			var travelradius = 5000;
+			var citycenter = {lat: 37.775, lng: -122.434}; //location of SF
+			var button = document.getElementById("theButton");
+			value =  button.form.valueId.value;
+			button.onclick = function() {
+			value =  button.form.valueId.value;
+			//alert(value);
+			travelradius = parseInt(value) * 1600;
+			google.maps.event.trigger(map, 'resize');
+			initMap();
+			}
+			// This example creates circles on the map, representing populations in North
+			// America.
+			// First, create an object containing LatLng and population for each city.
+			function initMap() {
+			// Create the map.
+			var map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 12,
+			center: citycenter,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+			});
+			// Construct the circle for each value in citymap.
+			// Note: We scale the area of the circle based on the population.
+			// Add the circle for this city to the map.
+			var cityCircle = new google.maps.Circle({
+			strokeColor: '#FF0000',
+			strokeOpacity: 0.8,
+			strokeWeight: 2,
+			fillColor: '#24b36b',
+			fillOpacity: 0.2,
+			map: map,
+			center: citycenter,
+			radius: travelradius
+			});
+			var permitContentString = '<div id="content">'+
+				'<div id="siteNotice">'+
+				'</div>'+
+				'<div id="bodyContent">'+
+					'<p><b>Not Permitted</b> city of San Francisco does not permit this location' +
+					'</p>'+
+					'<p>for a full list permitted locations check: <a href="http://bsm.sfdpw.org/MobileFoodPermits/">'+
+					'http://bsm.sfdpw.org/MobileFoodPermits/</a> '+
+				'(Updated On: Oct 1, 2014).</p>'+
+			'</div>'+
+		'</div>';
+		var constructionContentString = '<div id="content">'+
+			'<div id="siteNotice">'+
+			'</div>'+
+			'<div id="bodyContent">'+
+				'<p><b>Construction Warning</b> There is construction on Scott Street between Capra Way and Alhambra St' +
+				'between Oct 1, 2015 and Oct 30, 2015</p>'+
+			'</div>'+
+		'</div>';
+		var permitinfowindow = new google.maps.InfoWindow({
+		content: permitContentString
+		});
+		var constructioninfowindow = new google.maps.InfoWindow({
+		content: constructionContentString
+		});
+		setMarkers(map);
+		/*nopermitmarker.addListener('click', function() {
+		permitinfowindow.open(map, nopermitmarker);
+		});
+		constructionmarker.addListener('click', function() {
+		constructioninfowindow.open(map, constructionmarker);
+		});*/
+		}
+
+		</script>
+
+		    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDU8Ac3lSokaM1IBdFHAB26R6gmA0p03CU&signed_in=true&callback=initMap"></script>
+	</body>
+</html>
