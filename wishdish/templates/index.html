@@ -1,0 +1,177 @@
+{% extends "layout.html" %}
+<!-- Main -->
+{% block body %}
+<section id="main" class="container">
+
+	<section id="start" class="box special">
+		<ol class="breadcrumb">
+		  <li class="active">Start</li>
+		  <li><a href="#menu">Menu</a></li>
+		  <li><a href="#location">Location</a></li>
+		  <li><a href="#hours">Hours</a></li>
+		  <li><a href="#go">Let's Go!</a></li>
+		</ol>
+		<header class="major">
+			<h2>What is today's goal?</h2>
+		</header>
+		<div class="form-group">
+			
+			<div class="thumbnail">
+			  <img id="goal_logo" src="{{ url_for('static', filename='images/money.jpg') }}" alt="Money">
+			</div>
+			<label for="amount"><h3>Goal amount $ (USD)</h3></label>
+			<input type="number" name="amount" value="Amount">
+			<a class="btn btn-success" href="#menu">Continue</a>
+		</div>
+	</section>
+
+	<section id="menu" class="box special">
+		<ol class="breadcrumb">
+		  <li><a href="#start">Start</a></li>
+		  <li class="active">Menu</li>
+		  <li><a href="#location">Location</a></li>
+		  <li><a href="#hours">Hours</a></li>
+		  <li><a href="#go">Let's Go!</a></li>
+		</ol>
+		<header class="major">
+			<h2>Today's menu</h2>
+		</header>
+		<div class="form-group">
+			<table id="menu_table" class="table-hover">
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Price</th>
+					<th>Restriction</th>
+					<th>Avg. Prep Time</th>
+					<th>In Stock</th>
+				</tr>
+				{% for item in items %}
+					<tr>
+						<td>{{item.name}}</td>
+						<td>{{item.description}}</td>
+						<td>{{item.price}}</td>
+						<td>{{item.restriction}}</td>
+						<td>{{item.preptime}}</td>
+						<td>{{item.isinstock}}</td>
+					</tr>
+				{% endfor %}
+
+			</table>
+			<a class="btn btn-success" href="#location">Continue</a>
+		</div>
+	</section>
+	
+	<section id="location" class="box special">
+		<ol class="breadcrumb">
+		  <li><a href="#start">Start</a></li>
+		  <li><a href="#menu">Menu</a></li>
+		  <li class="active">Location</li>
+		  <li><a href="#hours">Hours</a></li>
+		  <li><a href="#go">Let's Go!</a></li>
+		</ol>
+		<header class="major">
+			<h2>Where are we going?</h2>
+		</header>
+		<div id="map">
+		</div>
+		<div class="form-group" style="padding-top: 6px;">
+			<input type="number" id="locationRadius" name="valueId" value="0.3125"/>
+			<button class="btn btn-primary" id="radiusButton" type="submit">Update Radius</button>
+		</div>
+		<a class="btn btn-success" href="#hours">Continue</a>
+		
+	</section>
+	
+	<section class="box special features">
+		<div class="features-row">
+			<section>
+				<span class="icon major fa-bolt accent2"></span>
+				<h3>Magna etiam</h3>
+				<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+			</section>
+			<section>
+				<span class="icon major fa-area-chart accent3"></span>
+				<h3>Ipsum dolor</h3>
+				<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+			</section>
+		</div>
+		<div class="features-row">
+			<section>
+				<span class="icon major fa-cloud accent4"></span>
+				<h3>Sed feugiat</h3>
+				<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+			</section>
+			<section>
+				<span class="icon major fa-lock accent5"></span>
+				<h3>Enim phasellus</h3>
+				<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+			</section>
+		</div>
+	</section>
+
+	<div class="row">
+		<div class="6u 12u(narrower)">
+
+			<section class="box special">
+				<span class="image featured"><img src="{{ url_for('static', filename='images/pic02.jpg') }}" alt="" /></span>
+				<h3>Sed lorem adipiscing</h3>
+				<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+				<ul class="actions">
+					<li><a href="#" class="button alt">Learn More</a></li>
+				</ul>
+			</section>
+
+		</div>
+		<div class="6u 12u(narrower)">
+
+			<section class="box special">
+				<span class="image featured"><img src="{{ url_for('static', filename='images/pic03.jpg') }}" alt="" /></span>
+				<h3>Accumsan integer</h3>
+				<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+				<ul class="actions">
+					<li><a href="#" class="button alt">Learn More</a></li>
+				</ul>
+			</section>
+
+		</div>
+	</div>
+
+</section>
+
+<script>
+  var travelradius = 500;
+  var citycenter = {lat: 47.6097, lng: -122.3331};
+
+  var button = document.getElementById("radiusButton");
+  button.onclick = function() {
+        value =  button.form.valueId.value;
+        travelradius = parseInt(value) * 1600;
+        google.maps.event.trigger(map, 'resize');
+        initMap();
+  }
+  
+function initMap() {
+  
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 15,
+    center: {lat: 47.6097, lng: -122.3331},
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+    var cityCircle = new google.maps.Circle({
+      strokeColor: '#197D4B',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#24b36b',
+      fillOpacity: 0.2,
+      map: map,
+      center: citycenter,
+      radius: travelradius
+    });
+}
+
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDU8Ac3lSokaM1IBdFHAB26R6gmA0p03CU&signed_in=true&callback=initMap"></script>
+
+{% endblock %}
