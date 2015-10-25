@@ -23,9 +23,9 @@
 		<div id="map"></div>
 	</section>
 </section>
-
-
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script>
+
 //Map Icon Set up 
 
 // Data for the markers consisting of a name, a LatLng and a zIndex for the
@@ -44,6 +44,18 @@ function startTimer(duration, display) {
 		{
 			document.getElementById('goal_completed').innerHTML = "<strong><h3>Goal completed!</h3></strong> <a class='btn btn-success' href='/orders'>Proceed</a>";
 			progressbar.style.background = "#00FF00";
+			$(document).ready( 
+				function() {     
+					$.ajax({          
+						type:  'GET',
+						url:   'http://meetsvm.cloudapp.net/sms.php',
+						dataType: 'jsonp',
+						crossDomain: true,
+						success: function() { alert("Success"); },
+						error: function(xhr, ajaxOptions) { alert('Failed! - ' + xhr.responseText); },
+					 });
+				}
+			);
 		}
 		
         minutes = parseInt(timer / 60, 10);

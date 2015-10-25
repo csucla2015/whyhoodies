@@ -35,6 +35,10 @@ def voting():
 @app.route('/orders/')
 def orders():
 	return render_template('orders.html', truck=_truck);
+	
+@app.route('/dashboard/')
+def dashboard():
+	return render_template('3columns.html', truck=_truck);
 
 def connect_db():
 	return sqlite3.connect(app.config['DATABASE'])

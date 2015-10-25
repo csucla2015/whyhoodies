@@ -2,25 +2,48 @@
 <!-- Main -->
 {% block body %}
 
-<button type="button" onclick="loadDoc()">Request data</button>
-
-<p id="demo"></p>
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<section id="main" class="container">
+	<section id="orders" class="box special">
+		<header class="major" >
+			<h2>Orders for the day:</h2>
+		</header>
+		<div id="order_list">
+		</div>
+		<a class="btn btn-default" href="/">Proceed</a>
+	</section>
+</section>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script>
-$(document).ready( 
-    function() {     
-        $.ajax({          
-            type:  'GET',
-            url:   'https://blockchain.info/address/18GYRGGsznG8UtpHR5i8zSP23F6E2Zs7y7?format=json&limit=10&offset=0',
-            dataType: 'json',
-			crossDomain: true,
+
+
+
+$( document ).ready(function() {
+	$("div.list-group").click(function(){
+		$(this).children("a")[0].addClass("active");
+	});
 	
-            success: function(json){
-				
-            }
-         });
-    }
-);
+	var xmlhttp;
+	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp = new XMLHttpRequest();
+	}
+	else { // code for IE6, IE5
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var orderList = document.getElementById("order_list");
+			response = xmlhttp.responseText;
+			jsonArray = JSON.parse(response);
+			for(var i = 0; i<jsonArray.length; i++)
+			{
+				order = jsonArray[i];
+				orderList.innerHTML = orderList.innerHTML + "<div class='list-group'><a class='list-group-item'><h4 class='list-group-item-heading'><strong>" + (i+1) + ". " +  order.name + "</strong></h4><h4><small>" + order.cost + "</small></h4></a></div>";
+			}
+		}
+	}
+	xmlhttp.open("GET", "http://meetsvm.cloudapp.net/transactions.php", true);
+	xmlhttp.send();
+});
 </script>
 
 
