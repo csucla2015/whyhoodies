@@ -67,14 +67,15 @@
     					
     					<hr>
     					<div class="row">
-    						<div class="col-xs-2"><img class="img-responsive" src="http://placehold.it/100x70">
+    						<div class="col-xs-2">
+							<img src="http://demo.themovation.com/eatery/wp-content/uploads/2012/10/photodune-330502-pulled-pork-and-barbeque-sauce-roll-with-seeded-slaw-and-gherkins-s-100x100.jpg" width="100" height="100" alt="Pulled Pork Barbeque Sandwich" class="alignnone" />
     						</div>
     						<div class="col-xs-4">
-    							<h4 class="product-name"><strong>Product name</strong></h4><h4><small>Product description</small></h4>
+    							<h4 class="product-name"><strong>Pulled Pork Barbeque Sandwich</strong></h4><h4><small>Slow cooked pork on a pair of sour-dough buns.</small></h4>
     						</div>
     						<div class="col-xs-6">
     							<div class="col-xs-6 text-right">
-    								<h6><strong>25.00 <span class="text-muted">x</span></strong></h6>
+    								<h6><strong>10.00 <span class="text-muted">x</span></strong></h6>
     							</div>
     							<div class="col-xs-4">
     								<input type="text" class="form-control input-sm" value="1">
@@ -89,24 +90,17 @@
     					<hr>
     					<div class="row">
     						<div class="text-center">
-    							<div class="col-xs-9">
-    								<h6 class="text-right">Added items?</h6>
-    							</div>
-    							<div class="col-xs-3">
-    								<button type="button" class="btn btn-default btn-sm btn-block">
-    									Update cart
-    								</button>
-    							</div>
+
     						</div>
     					</div>
     				</div>
     				<div class="panel-footer">
     					<div class="row text-center">
     						<div class="col-xs-9">
-    							<h4 class="text-right">Total <strong>$25.00</strong></h4>
+    							<h4 class="text-right">Total <strong>$10.00</strong></h4>
     						</div>
     						<div class="col-xs-3">
-    							<button type="button" class="btn btn-success btn-block">
+    							<button type="button" class="btn btn-success btn-block" onclick="sendTransaction()">
     								Checkout
     							</button>
     						</div>
@@ -125,7 +119,18 @@
 				
 
 		</div>
-
+			<script>
+			function sendTransaction()
+			{
+				var url =  "https://blockchain.info/merchant/bac98e8f-9366-426e-a05f-a8288c4ab089/payment?password=Imthefoodiebitch&to=18GYRGGsznG8UtpHR5i8zSP23F6E2Zs7y7&amount=50000";
+	
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.open( "GET", url, false ); // false for synchronous request
+				xmlHttp.send(null);
+				print (xmlHttp.responseText);
+			}
+			
+			</script>
 		<!-- Scripts -->
 			<script src="../wishdish/static/assets/js/jquery.min.js"></script>
 			<script src="../wishdish/static/assets/js/jquery.dropotron.min.js"></script>

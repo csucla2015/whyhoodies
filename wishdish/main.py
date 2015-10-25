@@ -15,14 +15,14 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 _items =  [
-		{'name': 'Shawarma', 'description': 'A delicious chicken delicacy', 'price':4.59, 'restriction':'Halal', 'preptime':5,'isinstock':1}, 
-		{'name': 'Spring Rolls', 'description': 'Not Summer. Not Winter. Not Fall.', 'price':3.59, 'restriction':'Kosher', 'preptime':3,'isinstock':1}, 
-		{'name': 'Buffalo Chicken Sushi', 'description': 'Something that should not exist', 'price':4.99, 'restriction':'None', 'preptime':15,'isinstock':1},
-		{'name': 'Soup', 'description': 'Plain soup', 'price':4.99, 'restriction':'None', 'preptime':15,'isinstock':1},
-		{'name': 'Pizza', 'description': 'Garlic pizza with cheese', 'price':4.99, 'restriction':'None', 'preptime':15,'isinstock':1}
+		{'name': 'Pulled Pork Barbeque Sandwich', 'description': 'A delicious chicken delicacy', 'price':4.59, 'restriction':'Halal', 'preptime':5,'isinstock':1}, 
+		{'name': 'Crispy Onion Rings', 'description': 'Not Summer. Not Winter. Not Fall.', 'price':3.59, 'restriction':'Kosher', 'preptime':3,'isinstock':1}, 
+		{'name': 'Chicken Salad', 'description': 'Something that should not exist', 'price':4.99, 'restriction':'None', 'preptime':15,'isinstock':1},
+		{'name': 'Grilled Chicken Panini', 'description': 'Plain soup', 'price':4.99, 'restriction':'None', 'preptime':15,'isinstock':1},
+		{'name': 'Vegetable Soup', 'description': 'Soup with vegetables', 'price':4.99, 'restriction':'None', 'preptime':15,'isinstock':1}
 	]
 
-_truck = {'goal':5000, 'name':'Kong Fuud', 'distance':5, 'hours':'12:00 pm'};
+_truck = {'goal':1000, 'name':'Kong Fuud', 'distance':5, 'hours':'12:00 pm'};
 
 @app.route('/')
 def index():

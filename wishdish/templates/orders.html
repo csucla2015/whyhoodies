@@ -2,6 +2,27 @@
 <!-- Main -->
 {% block body %}
 
+<button type="button" onclick="loadDoc()">Request data</button>
+
+<p id="demo"></p>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script>
+$(document).ready( 
+    function() {     
+        $.ajax({          
+            type:  'GET',
+            url:   'https://blockchain.info/address/18GYRGGsznG8UtpHR5i8zSP23F6E2Zs7y7?format=json&limit=10&offset=0',
+            dataType: 'json',
+			crossDomain: true,
+	
+            success: function(json){
+				
+            }
+         });
+    }
+);
+</script>
+
 
 
 

@@ -73,7 +73,7 @@ var markerlocation2 = {lat: 37.802, lng: -122.441};
 
 var nopermitmarker;
 var constructionmarker;
-
+var targetmarker;
 
 function setMarkers(map) {
   var noparkingimage = {
@@ -88,8 +88,9 @@ function setMarkers(map) {
     size: new google.maps.Size(75, 75),
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(25, 50)
-
   }
+  
+
   
   var shape = {
     coords: [1, 1, 1, 75, 75, 75, 75, 1],
@@ -101,7 +102,7 @@ function setMarkers(map) {
       map: map,
       icon: noparkingimage,
       shape: shape,
-      title: "Permit Warning"
+      title: "No Parking"
     });
 	
   constructionmarker = new google.maps.Marker({
@@ -143,7 +144,6 @@ function initMap() {
       radius: travelradius
   });
 
-
   var permitContentString = '<div id="content">'+
       '<div id="siteNotice">'+
       '</div>'+
@@ -184,6 +184,29 @@ function initMap() {
   });
   
   modulateData();
+  setTimeout(function(){
+	var truckimage = {
+		url: "{{ url_for('static', filename='images/truck_map.png') }}",
+		size: new google.maps.Size(75, 75),
+		origin: new google.maps.Point(0, 0),
+		anchor: new google.maps.Point(25, 50)
+	}
+	
+	  
+	var shape = {
+		coords: [1, 1, 1, 75, 75, 75, 75, 1],
+		type: 'poly'
+	};
+
+	
+	targetmarket = new google.maps.Marker({
+				position: {lat:37.781556, lng:-122.433804},
+				map: map,
+				icon: truckimage,
+				shape: shape,
+				title: "Highest Demand"
+			});
+  }, 8000);
   
 }
 
