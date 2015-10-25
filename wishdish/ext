@@ -1,0 +1,4 @@
+meetbhagdev@meetsvm:/var/www$ sudo chmod -R 777 ./html 
+meetbhagdev@meetsvm:/var/www$ sudo chown -R meetbhagdev ./html 
+meetbhagdev@meetsvm:/var/www$ sudo chgrp -R meetbhagdev ./html 
+meetbhagdev@meetsvm:/var/www$ 
