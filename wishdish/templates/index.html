@@ -9,7 +9,7 @@
 		  <li><a href="#menu">Menu</a></li>
 		  <li><a href="#location">Location</a></li>
 		  <li><a href="#hours">Hours</a></li>
-		  <li><a href="#go">Let's Go!</a></li>
+		  <li><a href="#go">Review</a></li>
 		</ol>
 		<header class="major">
 			<h2>What is today's goal?</h2>
@@ -20,7 +20,11 @@
 			  <img id="goal_logo" src="{{ url_for('static', filename='images/money.jpg') }}" alt="Money">
 			</div>
 			<label for="amount"><h3>Goal amount $ (USD)</h3></label>
-			<input type="number" name="amount" value="Amount">
+			<div id="goal_input" class="input-group">
+				<div class="input-group-addon">$</div>
+				<input class="form-control" type="number" name="amount" value="{{ truck.goal }}">
+				<div class="input-group-addon">.00</div>
+			</div>
 			<a class="btn btn-success" href="#menu">Continue</a>
 		</div>
 	</section>
@@ -31,7 +35,7 @@
 		  <li class="active">Menu</li>
 		  <li><a href="#location">Location</a></li>
 		  <li><a href="#hours">Hours</a></li>
-		  <li><a href="#go">Let's Go!</a></li>
+		  <li><a href="#go">Review</a></li>
 		</ol>
 		<header class="major">
 			<h2>Today's menu</h2>
@@ -43,20 +47,47 @@
 					<th>Description</th>
 					<th>Price</th>
 					<th>Restriction</th>
-					<th>Avg. Prep Time</th>
+					<th>Prep Time</th>
 					<th>In Stock</th>
+					<th></th>
+					<th></th>
 				</tr>
 				{% for item in items %}
 					<tr>
 						<td>{{item.name}}</td>
 						<td>{{item.description}}</td>
-						<td>{{item.price}}</td>
+						<td>${{item.price}}</td>
 						<td>{{item.restriction}}</td>
-						<td>{{item.preptime}}</td>
-						<td>{{item.isinstock}}</td>
+						<td style="text-align:center;">{{item.preptime}} mins</td>
+						<td style="text-align:center;">
+							{% if item.isinstock == 1 %}
+								<span class="fa fa-check"></span>
+							{% endif %}
+							{% if item.isinstock == 0 %}
+								<span class="fa fa-times"></span>
+							{% endif %}
+						</td>
+						<td>
+							<a class="btn btn-info">Edit</a>
+						</td>
+						<td>
+							<a class="btn btn-danger">Remove</a>
+						</td>
 					</tr>
 				{% endfor %}
-
+				
+				<tr>
+					<td>
+						<a class="btn btn-default">Add</a>
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
 			</table>
 			<a class="btn btn-success" href="#location">Continue</a>
 		</div>
@@ -68,7 +99,7 @@
 		  <li><a href="#menu">Menu</a></li>
 		  <li class="active">Location</li>
 		  <li><a href="#hours">Hours</a></li>
-		  <li><a href="#go">Let's Go!</a></li>
+		  <li><a href="#go">Review</a></li>
 		</ol>
 		<header class="major">
 			<h2>Where are we going?</h2>
@@ -83,69 +114,85 @@
 		
 	</section>
 	
-	<section class="box special features">
-		<div class="features-row">
-			<section>
-				<span class="icon major fa-bolt accent2"></span>
-				<h3>Magna etiam</h3>
-				<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-			</section>
-			<section>
-				<span class="icon major fa-area-chart accent3"></span>
-				<h3>Ipsum dolor</h3>
-				<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-			</section>
+	<section id="hours" class="box special">
+		<ol class="breadcrumb">
+		  <li><a href="#start">Start</a></li>
+		  <li><a href="#menu">Menu</a></li>
+		  <li><a href="#location">Location</a></li>
+		  <li class="active">Hours</li>
+		  <li><a href="#go">Review</a></li>
+		</ol>
+		<header class="major">
+			<h2>When are we going to be open for business?</h2>
+		</header>
+		<div class="thumbnail">
+			<img id="hours_logo" src="{{ url_for('static', filename='images/hours_logo.png') }}" alt="Hours">
 		</div>
-		<div class="features-row">
-			<section>
-				<span class="icon major fa-cloud accent4"></span>
-				<h3>Sed feugiat</h3>
-				<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-			</section>
-			<section>
-				<span class="icon major fa-lock accent5"></span>
-				<h3>Enim phasellus</h3>
-				<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-			</section>
+		<div id="hours_input" class="form-group">
+			<input type="number" id="timepicker_hour" value="10">
+			<span>:</span>
+			<input type="number" id="timepicker_minute" value="25">
+			<select id="timepicker_hours" >
+			  <option value="am">am</option>
+			  <option value="pm">pm</option>
+			</select>
 		</div>
+		<a class="btn btn-success" href="#go">Continue</a>
+		
 	</section>
-
-	<div class="row">
-		<div class="6u 12u(narrower)">
-
-			<section class="box special">
-				<span class="image featured"><img src="{{ url_for('static', filename='images/pic02.jpg') }}" alt="" /></span>
-				<h3>Sed lorem adipiscing</h3>
-				<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-				<ul class="actions">
-					<li><a href="#" class="button alt">Learn More</a></li>
-				</ul>
+	<section id="go" class="box special features">
+		<ol class="breadcrumb">
+		  <li><a href="#start">Start</a></li>
+		  <li><a href="#menu">Menu</a></li>
+		  <li><a href="#location">Location</a></li>
+		  <li><a href="#hours">Hours</a></li>
+		  <li class="active">Review</li>
+		</ol>
+		<header class="major">
+			<h2>Review your settings</h2>
+		</header>
+		<div class="features-row">
+			<section>
+				<span class="icon major fa-money accent2"></span>
+				<h3>Goal</h3>
+				<h4>The current goal is set to <strong>${{truck.goal}}</strong></h4>
 			</section>
-
-		</div>
-		<div class="6u 12u(narrower)">
-
-			<section class="box special">
-				<span class="image featured"><img src="{{ url_for('static', filename='images/pic03.jpg') }}" alt="" /></span>
-				<h3>Accumsan integer</h3>
-				<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-				<ul class="actions">
-					<li><a href="#" class="button alt">Learn More</a></li>
-				</ul>
+			<section>
+				<span class="icon major fa-cutlery accent3"></span>
+				<h3>Menu</h3>
+				<p>Today's menu includes: 
+					{% for item in items %}
+						<span style="padding: 0 4px 0 4px"><strong>{{item.name}}</strong></span>
+					{% endfor %}
+				</p>
 			</section>
-
 		</div>
-	</div>
+		<div class="features-row">
+			<section>
+				<span class="icon major fa-truck accent4"></span>
+				<h3>Location</h3>
+				<p>Today you'll travel at most <strong>{{truck.distance}} miles</strong>.</p>
+			</section>
+			<section>
+				<span class="icon major fa-clock-o accent5"></span>
+				<h3>Hours</h3>
+				<p>Today, your business will open at <strong>{{truck.hours}}</strong>.</p>
+			</section>
+		</div>
+		<a class="btn btn-success" href="/votes">Let's go!</a>
+		
+	</section>
 
 </section>
 
 <script>
   var travelradius = 500;
-  var citycenter = {lat: 47.6097, lng: -122.3331};
+  var citycenter = {lat: 37.779, lng: -122.434};
 
   var button = document.getElementById("radiusButton");
+  var locationRadius = document.getElementById("locationRadius");
   button.onclick = function() {
-        value =  button.form.valueId.value;
+        value =  locationRadius.value;
         travelradius = parseInt(value) * 1600;
         google.maps.event.trigger(map, 'resize');
         initMap();
@@ -155,8 +202,8 @@ function initMap() {
   
 
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 15,
-    center: {lat: 47.6097, lng: -122.3331},
+    zoom: 14,
+    center: {lat: 37.779, lng: -122.434},
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
     var cityCircle = new google.maps.Circle({
@@ -173,5 +220,4 @@ function initMap() {
 
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDU8Ac3lSokaM1IBdFHAB26R6gmA0p03CU&signed_in=true&callback=initMap"></script>
-
 {% endblock %}

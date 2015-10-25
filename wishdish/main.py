@@ -14,13 +14,27 @@ PASSWORD = 'default'
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-@app.route('/')
-def index():
-	return render_template('index.html', items =  [
+_items =  [
 		{'name': 'Shawarma', 'description': 'A delicious chicken delicacy', 'price':4.59, 'restriction':'Halal', 'preptime':5,'isinstock':1}, 
 		{'name': 'Spring Rolls', 'description': 'Not Summer. Not Winter. Not Fall.', 'price':3.59, 'restriction':'Kosher', 'preptime':3,'isinstock':1}, 
-		{'name': 'Buffalo Sweet Chicken Sushi w/ Whipped Cream', 'description': 'Something that should not exist', 'price':4.99, 'restriction':'None', 'preptime':15,'isinstock':1}
-	]);
+		{'name': 'Buffalo Chicken Sushi', 'description': 'Something that should not exist', 'price':4.99, 'restriction':'None', 'preptime':15,'isinstock':1},
+		{'name': 'Soup', 'description': 'Plain soup', 'price':4.99, 'restriction':'None', 'preptime':15,'isinstock':1},
+		{'name': 'Pizza', 'description': 'Garlic pizza with cheese', 'price':4.99, 'restriction':'None', 'preptime':15,'isinstock':1}
+	]
+
+_truck = {'goal':5000, 'name':'Kong Fuud', 'distance':5, 'hours':'12:00 pm'};
+
+@app.route('/')
+def index():
+	return render_template('index.html', truck=_truck, items=_items);
+	
+@app.route('/votes/')
+def voting():
+	return render_template('voting.html', truck=_truck);
+	
+@app.route('/orders/')
+def orders():
+	return render_template('orders.html', truck=_truck);
 
 def connect_db():
 	return sqlite3.connect(app.config['DATABASE'])

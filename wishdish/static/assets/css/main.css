@@ -3772,7 +3772,13 @@
 	#banner{
 		padding: 2em 0 12em 0;
 	}
-	
+	#goal_input
+	{
+		width: 50%;
+		left: 25%;
+		position: relative;
+		padding-bottom: 2em;
+	}
 	#banner_logo
 	{
 		width: 50%;
@@ -3784,10 +3790,32 @@
 		width: 25%;
 		position: relative;
 	}
+	#hours_logo
+	{
+		width: 25%;
+		position: relative;
+	}
+	#hours_input input, select
+	{
+		width:20%;
+		display:inline;
+	}
+	#menu_table 
+	{
+		
+	}
 	#menu_table th
 	{
 		text-align: center;
 		font-weight: bold;
+	}
+	#menu_table td
+	{
+		text-align: left;
+	}
+	td.td_center
+	{
+		text-align: center;
 	}
 	#map {
         height: 350px;

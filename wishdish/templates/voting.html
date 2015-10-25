@@ -1,0 +1,228 @@
+{% extends "layout.html" %}
+<!-- Main -->
+{% block body %}
+
+
+<section id="main" class="container">
+	<section id="voting" class="box special">
+		<header class="major" >
+			<h2>Voting period closes in <strong><span id="time"></span></strong>!</h2>
+		</header>
+		<div class="panel panel-default">
+		  <div class="panel-heading" id ="goal_completed"><h3>Goal completion: </h3></div>
+		  <div class="panel-body">
+			<div class="progress">
+			  <div id="countdown_bar" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+				<span class="sr-only"></span>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+
+		<div id="map"></div>
+	</section>
+</section>
+
+
+<script>
+//Map Icon Set up 
+
+// Data for the markers consisting of a name, a LatLng and a zIndex for the
+// order in which these markers should display on top of each other.
+
+function startTimer(duration, display) {
+	var progress = 60;
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+		var progressbar = document.getElementById('countdown_bar');
+		if(progress < 100)
+		{
+			progress = progress + 10;
+		}
+		else
+		{
+			document.getElementById('goal_completed').innerHTML = "<strong><h3>Goal completed!</h3></strong> <a class='btn btn-success' href='/orders'>Proceed</a>";
+			progressbar.style.background = "#00FF00";
+		}
+		
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = 0;
+        }
+		
+		progressbar.style.width = progress + '%';
+    }, 1000);
+}
+
+window.onload = function () {
+    var fiveMinutes = 4,
+        display = document.querySelector('#time');
+    startTimer(fiveMinutes, display);
+};
+
+var markerlocation1 = {lat: 37.782, lng: -122.441};
+var markerlocation2 = {lat: 37.802, lng: -122.441};
+
+var nopermitmarker;
+var constructionmarker;
+
+
+function setMarkers(map) {
+  var noparkingimage = {
+    url: "{{ url_for('static', filename='images/noparking_map.png') }}",
+    size: new google.maps.Size(75, 75),
+    origin: new google.maps.Point(0, 0),
+    anchor: new google.maps.Point(25, 50)
+  };
+
+  var constructionimage = {
+    url: "{{ url_for('static', filename='images/construction_map.png') }}",
+    size: new google.maps.Size(75, 75),
+    origin: new google.maps.Point(0, 0),
+    anchor: new google.maps.Point(25, 50)
+
+  }
+  
+  var shape = {
+    coords: [1, 1, 1, 75, 75, 75, 75, 1],
+    type: 'poly'
+  };
+  
+  nopermitmarker = new google.maps.Marker({
+      position: markerlocation1,
+      map: map,
+      icon: noparkingimage,
+      shape: shape,
+      title: "Permit Warning"
+    });
+	
+  constructionmarker = new google.maps.Marker({
+      position: markerlocation2,
+      map: map,
+      icon: constructionimage,
+      shape: shape,
+      title: "Construction Warning"
+    });
+  
+}
+
+  var travelradius = {{truck.distance}}*500;
+  var citycenter = {lat: 37.775, lng: -122.434};
+
+function initMap() {
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: citycenter,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+	
+  heatmap = new google.maps.visualization.HeatmapLayer({
+    data: getPoints(),
+    radius: 30,
+    opacity: .6,
+    map: map
+  });
+  
+  var cityCircle = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#24b36b',
+      fillOpacity: 0.2,
+      map: map,
+      center: citycenter,
+      radius: travelradius
+  });
+
+
+  var permitContentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<div id="bodyContent">'+
+      '<p><b>Not Permitted</b> city of San Francisco does not permit this location' +
+      '</p>'+
+      '<p>for a full list permitted locations check: <a href="http://bsm.sfdpw.org/MobileFoodPermits/">'+
+      'http://bsm.sfdpw.org/MobileFoodPermits/</a> '+
+      '(Updated On: Oct 1, 2014).</p>'+
+      '</div>'+
+      '</div>';
+
+  var constructionContentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<div id="bodyContent">'+
+      '<p><b>Construction Warning</b> There is construction on Scott Street between Capra Way and Alhambra St' +
+      'between Oct 1, 2015 and Oct 30, 2015</p>'+
+      '</div>'+
+      '</div>';
+
+  var permitinfowindow = new google.maps.InfoWindow({
+    content: permitContentString
+  });
+
+  var constructioninfowindow = new google.maps.InfoWindow({
+    content: constructionContentString
+  });
+
+  setMarkers(map);
+
+  nopermitmarker.addListener('click', function() {
+  permitinfowindow.open(map, nopermitmarker);
+  });
+
+  constructionmarker.addListener('click', function() {
+  constructioninfowindow.open(map, constructionmarker);
+  });
+  
+  modulateData();
+  
+}
+
+
+function modulateData() {
+    var modulator = function() {
+        var newData = heatmap.getData();
+		
+		var newLat = 37.782 + Math.random()/1000;
+		var newLon = -122.443 + Math.random()/1000;
+		var newWeight = Math.random()*100;
+        newData.push({location: new google.maps.LatLng(newLat, newLon), weight: newWeight});
+		
+		newData.push({location: new google.maps.LatLng(37.781548, -122.433797), weight: 100});
+		newData.push({location: new google.maps.LatLng(37.781448, -122.433897), weight: 100});
+		newData.push({location: new google.maps.LatLng(37.781748, -122.433997), weight: 100});
+		newData.push({location: new google.maps.LatLng(37.781248, -122.433697), weight: 100});
+		newData.push({location: new google.maps.LatLng(37.781848, -122.433897), weight: 100});
+        
+        heatmap.set('data', newData);
+        
+        setTimeout(modulator, 500);
+    };
+	setTimeout(modulator, 500);
+}
+
+function getPoints() {
+  return [
+  {location: new google.maps.LatLng(37.782, -122.457), weight: 5},
+  {location: new google.maps.LatLng(37.782, -122.442), weight: 10},
+  {location: new google.maps.LatLng(37.782, -122.441), weight: 100},
+  {location: new google.maps.LatLng(37.782, -122.443), weight: 10}
+];
+}
+
+</script>
+
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDU8Ac3lSokaM1IBdFHAB26R6gmA0p03CU&signed_in=true&libraries=visualization&callback=initMap">
+    </script>
+{% endblock %}
